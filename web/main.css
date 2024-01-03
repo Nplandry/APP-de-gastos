@@ -1,0 +1,116 @@
+*{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#title {
+    background-color: black;
+    padding: 0;
+    margin: 0;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: -9px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 0 20px 20px #e6e5e5;
+}
+#container h1 {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+#div-form {
+    margin: 20px 0;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#div-form label, #div-form input {
+    background-color: #efeded;
+    box-shadow: 0 0 20px 20px rgba(239, 237, 237, 0.5)
+}
+#div-form input {
+    border: none;
+    outline: none;
+    border-bottom: 3px solid rgba(239, 237, 237, 0.5);
+    border-radius: 2px;
+    color: black;
+}
+#div-form input:hover {
+    border-bottom: 3px solid black;
+    transition: 0.5s;
+    border-radius: 2px;
+}
+#transactionText input {
+    width: 100%;
+    margin: 5px 0px;
+    padding: 10px 0;
+    text-align: center;
+    color: black;
+}
+#div-form button {
+    margin: 15px auto;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: rgba(239, 237, 237, 0.5);
+    border-radius: 2px;
+    box-shadow: 0 0 20px 20px rgba(239, 237, 237, 0.5);
+    padding: 10px 0;
+
+}
+#div-form button:hover {
+    box-shadow: 0 0 5px 5px #ccc;
+    transition: 0.4s;
+    color: #ccc;
+    color: black;
+}
+#div-table {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+#radioInput {
+    width: 100%;
+    font-size: 20px;
+    box-shadow: none;
+    margin: 30px 0;
+}
+#radioInput label {
+    width: 50%;
+    box-shadow: none;
+    background-color: white;
+}
+#radioInput input {
+    width: 35%;
+    box-shadow: none;
+}
+#TableTrasaction {
+    width: 100%;
+    display: flex;
+}
+#TableTrasaction, th, tr, td {
+    display: flex;
+    width: 100%;
+    padding: 10px 30px;
+    text-align: center;
+}
