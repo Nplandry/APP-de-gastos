@@ -17,13 +17,7 @@ app.use(cors())
 
 let transactionArr = 
 [
-    {
-        "TypeTransaction": "Ingreso",
-        "TransactionMount": "5000",
-        "nameTransaction": "Comida",
-        "descriptionTransaction": "Burguer",
-        "transactionId": 7
-      }
+    
   ]
 
 
@@ -37,7 +31,7 @@ app.get('/transaction', (req, res)=> {
 
 app.get('/transaction/:id', (req, res)=> {
     const transactionId = req.params.id;
-    const selectedTransaction = transactionArr.filter(transactionArr => transactionArr.transactionId == transactionId)
+    const selectedTransaction = transactionArr.filter(transactionArr => transactionArr.transactionId *= transactionId)
     res.send(selectedTransaction)
     transactionArr.splice(selectedTransaction, 1)
     console.log(transactionArr)

@@ -28,7 +28,7 @@ function getTransactionsFromApi(){
 
 
 function getNewTransactionId(){
-    let LasttransactionId = localStorage.getItem("TransactionId") || "0"
+    let LasttransactionId = localStorage.getItem("TransactionId") || "-4"
     let NewTransactionId = JSON.parse(LasttransactionId) + 1;
     localStorage.setItem("TransactionId", JSON.stringify(NewTransactionId))
     return NewTransactionId;
@@ -80,7 +80,7 @@ function TransactionFormDatainTable(FormDataObj){
     InsertNewCell.style.color = "green"
     } else {
     InsertNewCell = CreateNewRow.insertCell(1)
-    InsertNewCell.textContent = FormDataObj["TransactionMount"];
+    InsertNewCell.textContent = "-" + FormDataObj["TransactionMount"];
     InsertNewCell.style.color = "red"
     }
     
@@ -99,14 +99,14 @@ function TransactionFormDatainTable(FormDataObj){
     NewButton.addEventListener("click", ()=> {
         let transactionRow = event.target.parentNode.parentNode
         let transactionId = transactionRow.getAttribute("data-transactionId")
+        ObtenerTransactionIdFromBackEnd(transactionId)
         transactionRow.remove()
-        deleteTransactionObj(transactionId)
-        deleteTransactionFromBackend(transactionId)
+
     })
 }
 
-function deleteTransactionFromBackend(transactionId){
-    console.log(fetch(`http://localhost:3000/transaction/${transactionId}`).then(promise => promise.json()).then(data => console.log(data)))
+function ObtenerTransactionIdFromBackEnd(transactionId){
+fetch(`http://localhost:3000/transaction/${transactionId}`).then(promise => promise.json()).then(data => console.log(data))
 }
 
 function saveTransactionInBackEnd(FormDataObj){
@@ -125,7 +125,6 @@ fetch('http://localhost:3000/transaction', {
   .catch(error => {
     console.error('Error al enviar el array al servidor:', error);
   });
-
 }
 
 function SaveTransactionFormDataInLs(FormDataObj){
