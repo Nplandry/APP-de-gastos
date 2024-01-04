@@ -72,6 +72,7 @@
     border-radius: 2px;
     box-shadow: 0 0 20px 20px rgba(239, 237, 237, 0.5);
     padding: 10px 0;
+    cursor: pointer;
 
 }
 #div-form button:hover {
@@ -113,4 +114,10 @@
     width: 100%;
     padding: 10px 30px;
     text-align: center;
+}
+#IngresoTransaction {
+    cursor: pointer;
+}
+#EgresoTransaction {
+    cursor: pointer;
 }
