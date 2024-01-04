@@ -74,8 +74,16 @@ function TransactionFormDatainTable(FormDataObj){
     let InsertNewCell = CreateNewRow.insertCell(0)
     InsertNewCell.textContent = FormDataObj["TypeTransaction"];
 
+    if (FormDataObj["TypeTransaction"] == "Ingreso"){
     InsertNewCell = CreateNewRow.insertCell(1)
     InsertNewCell.textContent = FormDataObj["TransactionMount"];
+    InsertNewCell.style.color = "green"
+    } else {
+    InsertNewCell = CreateNewRow.insertCell(1)
+    InsertNewCell.textContent = FormDataObj["TransactionMount"];
+    InsertNewCell.style.color = "red"
+    }
+    
 
     InsertNewCell = CreateNewRow.insertCell(2)
     InsertNewCell.textContent = FormDataObj["nameTransaction"];
