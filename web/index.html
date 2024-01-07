@@ -18,9 +18,9 @@
         <label for="EgresoTransaction">Egreso</label><input type="radio" value="Egreso" id="EgresoTransaction" name="TypeTransaction">
     </div>
         <div id="transactionText">
-        <label for="TransactionMount"></label><input type="number" placeholder="Monto" id="TransactionMount" name="TransactionMount">
-        <label for="nameTransaction"></label><input type="text" placeholder="Nombre" id="nameTransaction" name="nameTransaction">
-        <label for="descriptionTransaction"></label><input type="text" placeholder="Categoria" id="descriptionTransaction" name="descriptionTransaction">
+        <label for="TransactionMount"></label><input type="number" placeholder="Monto" id="TransactionMount" name="TransactionMount" min="0" required>
+        <label for="nameTransaction"></label><input type="text" placeholder="Nombre" id="nameTransaction" name="nameTransaction" required>
+        <label for="descriptionTransaction"></label><input type="text" placeholder="Categoria" id="descriptionTransaction" name="descriptionTransaction" required>
         <button>Guardar</button>
         </div>
         

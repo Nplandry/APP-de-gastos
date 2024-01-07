@@ -34,24 +34,25 @@ app.post('/transactions', (req, res)=> {
 
 app.get('/transactions/:id', (req, res)=> {
     const transactionId = req.params.id;/*Obtiene el id del directorio*/
-    console.log(transactionId)
     const selectedTransaction = transactionArr.filter(transactionArr => transactionArr.transactionId == transactionId)
     res.send(selectedTransaction)
     //transactionArr.splice(selectedTransaction, 1)
     console.log(transactionArr)
  })
- app.delete('/transactions/:id', (req, res) => {
-    const { transactionId } = req.params;
-  
+ app.delete('/transactions/:Id', (req, res) => {
+    const transactionId = req.params;
+    let transactionIdRef = parseInt(transactionId.Id, 10)
+    console.log(transactionIdRef) /* ESTA BIEN*/
+    
     // Encontrar la transacción por su ID en el almacén (o en tu base de datos)
-    const index = transactionArr.findIndex(transaction => transaction.Id == transactionId);
-  
+    /*ERROR*/const index = transactionArr.findIndex(transactionArr => transactionArr.transactionId == transactionIdRef);
+
     if (index !== -1) {
     transactionArr.splice(index, 1); // Eliminar la transacción del almacén
       res.status(200).json({ message: `Transacción con ID ${transactionId} eliminada` });
     } else {
       res.status(404).json({ error: `Transacción con ID ${transactionId} no encontrada` });
-    }
+    } 
   });
 
 app.listen(port, ()=> {

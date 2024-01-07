@@ -27,10 +27,10 @@ function sendTransactionToBackend(transactionFromDataObj){
 
 
 function createTransactionId(){
-    let oldTransactionId = JSON.parse(localStorage.getItem("transactionId")) || 0
-    let newTransactionId = (oldTransactionId + 1)
+    let oldTransactionId = localStorage.getItem("transactionId") || "0"
+    let newTransactionId = (JSON.parse(oldTransactionId) + 1)
     localStorage.setItem("transactionId", JSON.stringify(newTransactionId))
-    return newTransactionId
+    return newTransactionId 
 }
 
 
@@ -60,11 +60,11 @@ function addTransactionToTable(transactionFromDataObj){
     insertNewCell.textContent = transactionFromDataObj["TypeTransaction"]
     if(transactionFromDataObj["TypeTransaction"] == "Ingreso"){
         insertNewCell = insertNewRow.insertCell(1)
-        insertNewCell.textContent = transactionFromDataObj["TransactionMount"]
+        insertNewCell.textContent = transactionFromDataObj["TransactionMount"] 
         insertNewCell.style.color = "green"
     } else {
         insertNewCell = insertNewRow.insertCell(1)
-        insertNewCell.textContent = transactionFromDataObj["TransactionMount"]
+        insertNewCell.textContent = "-" + transactionFromDataObj["TransactionMount"]
         insertNewCell.style.color = "red"
     }
     
@@ -84,6 +84,7 @@ function addTransactionToTable(transactionFromDataObj){
         transactionRow.remove()
         //REVISAR
         let transactionId = transactionRow.getAttribute("data-transaction-Id")
+        console.log(transactionId)
         //Obtenemos id de transaccion de columna a borrar
         deleteTransactionFromBackend(transactionId);
     })
