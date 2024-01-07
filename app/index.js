@@ -1,49 +1,59 @@
 const express = require('express');
 const cors = require('cors')
-//Same Origins Polce SOP
-const app = express();
+
+const app = express()
 const port = 3000;
 
 app.use(express.urlencoded({
     extended: true
 }))
 
+let transactionArr = [];
+/*{
+    TransactionMount : "1",
+    TypeTransaction : "Ingreso",
+    descriptionTransaction : "1",
+    nameTransaction : "1"
+    }*/
+
 app.use(express.json({
     type: "*/*"
 }))
 
-
 app.use(cors())
 
-let transactionArr = 
-[
-    
-  ]
-
-
-app.get('/', (req, res)=> {
-    res.send('Ingresaron al localhost')
-})
-
-app.get('/transaction', (req, res)=> {
+app.get('/transactions', (req, res)=> {
     res.send(transactionArr)
 })
 
-app.get('/transaction/:id', (req, res)=> {
-    const transactionId = req.params.id;
-    const selectedTransaction = transactionArr.filter(transactionArr => transactionArr.transactionId *= transactionId)
-    res.send(selectedTransaction)
-    transactionArr.splice(selectedTransaction, 1)
-    console.log(transactionArr)
+app.post('/transactions', (req, res)=> {
+    let frontArr = req.body
+    transactionArr.push(frontArr)
+    res.send('Guardado bb')
 })
 
-app.post('/transaction', (req, res)=> {
-    const transaction = req.body.data
-    transactionArr.push(transaction)
-    res.send('Todo OK')
-})
+app.get('/transactions/:id', (req, res)=> {
+    const transactionId = req.params.id;/*Obtiene el id del directorio*/
+    console.log(transactionId)
+    const selectedTransaction = transactionArr.filter(transactionArr => transactionArr.transactionId == transactionId)
+    res.send(selectedTransaction)
+    //transactionArr.splice(selectedTransaction, 1)
+    console.log(transactionArr)
+ })
+ app.delete('/transactions/:id', (req, res) => {
+    const { transactionId } = req.params;
+  
+    // Encontrar la transacción por su ID en el almacén (o en tu base de datos)
+    const index = transactionArr.findIndex(transaction => transaction.Id == transactionId);
+  
+    if (index !== -1) {
+    transactionArr.splice(index, 1); // Eliminar la transacción del almacén
+      res.status(200).json({ message: `Transacción con ID ${transactionId} eliminada` });
+    } else {
+      res.status(404).json({ error: `Transacción con ID ${transactionId} no encontrada` });
+    }
+  });
 
 app.listen(port, ()=> {
-    console.log(`App funcionando en https://localhost:${port}`)
+    console.log(`Pagina inicializada en http://localhost:${port}`)
 })
-

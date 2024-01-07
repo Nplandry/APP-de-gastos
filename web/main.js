@@ -1,137 +1,111 @@
 const form = document.getElementById("Form")
 form.addEventListener("submit", ()=> {
     event.preventDefault();
-    let TransactionFormData = new FormData(form);
-    let FormDataObj = TransformFormDataToObj(TransactionFormData);
-    TransactionFormDatainTable(FormDataObj)
-    SaveTransactionFormDataInLs(FormDataObj)
+    let transactionFromData = new FormData(form)
+    let transactionFromDataObj = transformtransactionFromDataToObj(transactionFromData)
+    addTransactionToTable(transactionFromDataObj)
+    sendTransactionToBackend(transactionFromDataObj)
     form.reset()
-    saveTransactionInBackEnd(FormDataObj)
 })
 
-document.addEventListener("DOMContentLoaded", ()=> {
-    fetch('http://localhost:3000/transaction').then(promise => promise.json()).then(data => mostrarEnPantallaArrDeLaTransaccion(data))
+document.addEventListener('DOMContentLoaded', ()=> {
+    fetch('http://localhost:3000/transactions').then(x => x.json()).then(data => recorrerElementos(data))
 })
-
-function mostrarEnPantallaArrDeLaTransaccion(element){
-    element.forEach(
-        (arrElement)=> {
-            TransactionFormDatainTable(arrElement)
-        }
-    )
+function recorrerElementos(element){
+    element.forEach((arrElement)=> {
+        addTransactionToTable(arrElement)
+    })
+}
+function sendTransactionToBackend(transactionFromDataObj){
+    fetch('http://localhost:3000/transactions', {
+        method: 'POST',
+        headers:
+        {'Content-Type': 'application/json'},
+        body: JSON.stringify(transactionFromDataObj)
+    })
 }
 
-function getTransactionsFromApi(){
-    let alltransactions = fetch('http://localhost:3000/transaction')
-    return alltransactions
+
+function createTransactionId(){
+    let oldTransactionId = JSON.parse(localStorage.getItem("transactionId")) || 0
+    let newTransactionId = (oldTransactionId + 1)
+    localStorage.setItem("transactionId", JSON.stringify(newTransactionId))
+    return newTransactionId
 }
 
 
-function getNewTransactionId(){
-    let LasttransactionId = localStorage.getItem("TransactionId") || "-4"
-    let NewTransactionId = JSON.parse(LasttransactionId) + 1;
-    localStorage.setItem("TransactionId", JSON.stringify(NewTransactionId))
-    return NewTransactionId;
-}
 
-function TransformFormDataToObj(TransactionFormData){
-    TypeTransaction = TransactionFormData.get("TypeTransaction")
-    TransactionMount = TransactionFormData.get("TransactionMount")
-    nameTransaction = TransactionFormData.get("nameTransaction")
-    descriptionTransaction = TransactionFormData.get("descriptionTransaction")
-    transactionId = getNewTransactionId()
-    return{
+function transformtransactionFromDataToObj(transactionFromData){
+    TypeTransaction = transactionFromData.get("TypeTransaction");
+    TransactionMount = transactionFromData.get("TransactionMount");
+    nameTransaction = transactionFromData.get("nameTransaction");
+    descriptionTransaction = transactionFromData.get("descriptionTransaction");
+    transactionId =  createTransactionId()
+    return {
         "TypeTransaction" : TypeTransaction,
         "TransactionMount" : TransactionMount,
         "nameTransaction" : nameTransaction,
         "descriptionTransaction" : descriptionTransaction,
-        "transactionId" : transactionId
+        "transactionId": transactionId
+
     }
 }
 
-function deleteTransactionObj(transactionId){
-    let transactionObjArr = JSON.parse(localStorage.getItem("Transactions"));
-    let transactionIndexinArr = transactionObjArr.findIndex(x => x.transactionId == transactionId)
-    transactionObjArr.splice(transactionIndexinArr, 1)
-    let transactionArrJson = JSON.stringify(transactionObjArr)
-    localStorage.setItem("Transactions", transactionArrJson)
-}
 
-
-function mapola(transactionId){
-    let TransactionObjArr = localStorage.getItem("transactions");
-    let TransactionIndex = TransactionObjArr.findIndex(x => x.transactionId == transactionId);
-    TransactionObjArr.splice(TransactionIndex, 1)
-    let TransactionObjArrJson = JSON.stringify(TransactionObjArr)
-    localStorage.setItem("transactions", TransactionObjArrJson)
-}
-
-
-function TransactionFormDatainTable(FormDataObj){
-    let transactionTableRef = document.getElementById("TableTrasaction")
-    let CreateNewRow = transactionTableRef.insertRow(-1);
-    CreateNewRow.setAttribute("data-transactionId", FormDataObj["transactionId"]);
-    let InsertNewCell = CreateNewRow.insertCell(0)
-    InsertNewCell.textContent = FormDataObj["TypeTransaction"];
-
-    if (FormDataObj["TypeTransaction"] == "Ingreso"){
-    InsertNewCell = CreateNewRow.insertCell(1)
-    InsertNewCell.textContent = FormDataObj["TransactionMount"];
-    InsertNewCell.style.color = "green"
+function addTransactionToTable(transactionFromDataObj){
+    const tableRef = document.getElementById("TableTrasaction")
+    let insertNewRow = tableRef.insertRow(-1)
+    insertNewRow.setAttribute("data-transaction-Id", transactionFromDataObj["transactionId"]);
+    let insertNewCell = insertNewRow.insertCell(0)
+    insertNewCell.textContent = transactionFromDataObj["TypeTransaction"]
+    if(transactionFromDataObj["TypeTransaction"] == "Ingreso"){
+        insertNewCell = insertNewRow.insertCell(1)
+        insertNewCell.textContent = transactionFromDataObj["TransactionMount"]
+        insertNewCell.style.color = "green"
     } else {
-    InsertNewCell = CreateNewRow.insertCell(1)
-    InsertNewCell.textContent = "-" + FormDataObj["TransactionMount"];
-    InsertNewCell.style.color = "red"
+        insertNewCell = insertNewRow.insertCell(1)
+        insertNewCell.textContent = transactionFromDataObj["TransactionMount"]
+        insertNewCell.style.color = "red"
     }
     
 
-    InsertNewCell = CreateNewRow.insertCell(2)
-    InsertNewCell.textContent = FormDataObj["nameTransaction"];
+    insertNewCell = insertNewRow.insertCell(2)
+    insertNewCell.textContent = transactionFromDataObj["nameTransaction"]
 
-    InsertNewCell = CreateNewRow.insertCell(3)
-    InsertNewCell.textContent = FormDataObj["descriptionTransaction"];
+    insertNewCell = insertNewRow.insertCell(3)
+    insertNewCell.textContent = transactionFromDataObj["descriptionTransaction"]
 
-    let newDeleteCells = CreateNewRow.insertCell(4);
-    let NewButton = document.createElement("button");
-    NewButton.textContent = "Eliminar"
-    newDeleteCells.appendChild(NewButton)
-    
-    NewButton.addEventListener("click", ()=> {
+    let NewDeleteCell = insertNewRow.insertCell(4)
+    let deleteButton = document.createElement("button")
+    deleteButton.textContent = "Eliminar"
+    NewDeleteCell.appendChild(deleteButton)
+    deleteButton.addEventListener("click", ()=> {
         let transactionRow = event.target.parentNode.parentNode
-        let transactionId = transactionRow.getAttribute("data-transactionId")
-        ObtenerTransactionIdFromBackEnd(transactionId)
         transactionRow.remove()
-
+        //REVISAR
+        let transactionId = transactionRow.getAttribute("data-transaction-Id")
+        //Obtenemos id de transaccion de columna a borrar
+        deleteTransactionFromBackend(transactionId);
     })
+    function deleteTransactionFromBackend(transactionId) {
+        fetch(`http://localhost:3000/transactions/${transactionId}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Transacción con ID ${transactionId} eliminada del backend.`);
+            } else {
+                console.error(`Error al eliminar la transacción con ID ${transactionId} del backend.`);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
 }
 
-function ObtenerTransactionIdFromBackEnd(transactionId){
-fetch(`http://localhost:3000/transaction/${transactionId}`).then(promise => promise.json()).then(data => console.log(data))
-}
 
-function saveTransactionInBackEnd(FormDataObj){
-const miArray = FormDataObj;
-fetch('http://localhost:3000/transaction', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ data: miArray })
-})
-  .then(response => response.json())
-  .then(data => {
-    console.log('Respuesta del servidor:', data);
-  })
-  .catch(error => {
-    console.error('Error al enviar el array al servidor:', error);
-  });
-}
 
-function SaveTransactionFormDataInLs(FormDataObj){
-    let GetOldTransactionsArr = JSON.parse(localStorage.getItem("Transactions")) || []
-    GetOldTransactionsArr.push(FormDataObj)
-    let FormDataObjJson = JSON.stringify(GetOldTransactionsArr)
-    localStorage.setItem("Transactions", FormDataObjJson)
 
-}
+
 
