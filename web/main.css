@@ -1,15 +1,17 @@
 *{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
 }
 
 #container {
     display: flex;
-    max-width: 1200px;
-    margin: 0 auto;
     padding: 0;
     width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
+    box-sizing: border-box;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 #title {
     background-color: black;
@@ -120,4 +122,46 @@
 }
 #EgresoTransaction {
     cursor: pointer;
+}
+
+#totalSumButton {
+    border: none;
+    outline: none;
+    background-color: rgba(239, 237, 237, 0.5);
+    border-radius: 5px;
+    box-shadow: 0 0 20px 20px rgba(239, 237, 237, 0.5);
+    cursor: pointer;
+    padding: 10px;
+    margin-top: 20px;
+    margin-left: 8px;
+}
+#totalSumButton:hover {
+    box-shadow: 0 0 5px 5px #ccc;
+    transition: 0.4s;
+    color: #ccc;
+    color: black;
+}
+#totalTable tr {
+    margin: 5px 0;
+    padding: 0 23px;
+}
+#totalTable tr th{
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    background-color: #efeded;
+    box-shadow: 0 0 20px 20px rgba(239, 237, 237, 0.5);
+    border-radius: 7px;
+    font-size: 15px;
+    
+}
+#totalSumCell {
+    background-color: #efeded;
+    font-size: 15px;
+    border-radius: 7px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    justify-content: center;
+    box-shadow: 0 0 20px 20px rgba(239, 237, 237, 0.5)
 }

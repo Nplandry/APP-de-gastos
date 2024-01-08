@@ -11,6 +11,7 @@
     <div id="title">
     <h1>Mi Aplicacion Para Gastos</h1>
 </div>
+<!--Empieza el formulario-->
 <div id="div-form">
     <form id="Form">
         <div id="radioInput">
@@ -18,13 +19,13 @@
         <label for="EgresoTransaction">Egreso</label><input type="radio" value="Egreso" id="EgresoTransaction" name="TypeTransaction">
     </div>
         <div id="transactionText">
-        <label for="TransactionMount"></label><input type="number" placeholder="Monto" id="TransactionMount" name="TransactionMount" min="0" required>
-        <label for="nameTransaction"></label><input type="text" placeholder="Nombre" id="nameTransaction" name="nameTransaction" required>
-        <label for="descriptionTransaction"></label><input type="text" placeholder="Categoria" id="descriptionTransaction" name="descriptionTransaction" required>
-        <button>Guardar</button>
+        <label for="TransactionMount"></label><input type="number" placeholder="Monto" id="TransactionMount" name="TransactionMount">
+        <label for="nameTransaction"></label><input type="text" placeholder="Nombre" id="nameTransaction" name="nameTransaction">
+        <label for="descriptionTransaction"></label><input type="text" placeholder="Categoria" id="descriptionTransaction" name="descriptionTransaction">
+        <button id="transactionButton">Guardar</button>
         </div>
-        
     </form>
+    <!--Termina el formulario-->
 </div>
 <div id="div-table">
     <table id="TableTrasaction">
@@ -37,8 +38,19 @@
         </tr>
     </table>
 </div>
+<div id="div-total-table">
+    <table id="totalTable">
+        <tr>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td id="totalSumCell"></td>
+        </tr>
+    </table>
+    <button id="totalSumButton">Calcular Total</button>
 </div>
-
+</div>
     <script src="main.js"></script>
+    <script src="https://kit.fontawesome.com/16b5a59919.js" crossorigin="anonymous"></script>
 </body>
 </html>

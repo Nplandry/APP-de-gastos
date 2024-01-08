@@ -10,7 +10,9 @@ form.addEventListener("submit", ()=> {
 
 document.addEventListener('DOMContentLoaded', ()=> {
     fetch('http://localhost:3000/transactions').then(x => x.json()).then(data => recorrerElementos(data))
+    addTotalMountToTable()  
 })
+// Funcion que recorre el indice de mi transaccion y la añade directamente en la tabla
 function recorrerElementos(element){
     element.forEach((arrElement)=> {
         addTransactionToTable(arrElement)
@@ -37,7 +39,11 @@ function createTransactionId(){
 
 function transformtransactionFromDataToObj(transactionFromData){
     TypeTransaction = transactionFromData.get("TypeTransaction");
+    if(transactionFromData.get("TypeTransaction") == "Ingreso"){
     TransactionMount = transactionFromData.get("TransactionMount");
+    } else { 
+        TransactionMount = JSON.parse("-" + transactionFromData.get("TransactionMount"));  
+    }
     nameTransaction = transactionFromData.get("nameTransaction");
     descriptionTransaction = transactionFromData.get("descriptionTransaction");
     transactionId =  createTransactionId()
@@ -64,7 +70,7 @@ function addTransactionToTable(transactionFromDataObj){
         insertNewCell.style.color = "green"
     } else {
         insertNewCell = insertNewRow.insertCell(1)
-        insertNewCell.textContent = "-" + transactionFromDataObj["TransactionMount"]
+        insertNewCell.textContent = transactionFromDataObj["TransactionMount"]
         insertNewCell.style.color = "red"
     }
     
@@ -105,8 +111,28 @@ function addTransactionToTable(transactionFromDataObj){
     }
 }
 
+const buttonSum = document.getElementById("totalSumButton")
+buttonSum.addEventListener('click', ()=> { 
+    addTotalMountToTable()
+})
 
 
-
+function addTotalMountToTable(){
+    const totalSumCellRef = document.getElementById("totalSumCell")
+    fetch('http://localhost:3000/transactions').then(x => x.json()).then(arr => sumarTransactionMount(arr)).then(x => totalSumCellRef.innerText = x) || 0
+}
+  
+  // Función para sumar los valores de TransactionMount
+  function sumarTransactionMount(arr) {
+    let suma = 0;
+  
+    // Iterar sobre cada objeto en el arreglo
+    arr.forEach((transaction) => {
+      // Convertir el valor de TransactionMount a número y sumarlo
+      suma += parseInt(transaction.TransactionMount);
+    });
+  
+    return suma;
+  }
 
 

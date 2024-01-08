@@ -45,7 +45,7 @@ app.get('/transactions/:id', (req, res)=> {
     console.log(transactionIdRef) /* ESTA BIEN*/
     
     // Encontrar la transacción por su ID en el almacén (o en tu base de datos)
-    /*ERROR*/const index = transactionArr.findIndex(transactionArr => transactionArr.transactionId == transactionIdRef);
+    const index = transactionArr.findIndex(transactionArr => transactionArr.transactionId == transactionIdRef);
 
     if (index !== -1) {
     transactionArr.splice(index, 1); // Eliminar la transacción del almacén
