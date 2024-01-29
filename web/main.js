@@ -1,14 +1,27 @@
 const form = document.getElementById("Form")
+//Evento de escucha cuando se hace un submit del formulario
 form.addEventListener("submit", ()=> {
+    //Hacer para que cuando se envia el formulario no se actualize la pagina
     event.preventDefault();
+    //Nuevo formData para obtener los datos en los inputs
     let transactionFromData = new FormData(form)
+    //Funcion que transforma los datos del formData del formulario a objetos
     let transactionFromDataObj = transformtransactionFromDataToObj(transactionFromData)
+
+    //Funcion que añade los envios de formularios a una tabla
     addTransactionToTable(transactionFromDataObj)
+
+    //Funcion que envia los datos del formularios hacia el backeend creado en expressjs
     sendTransactionToBackend(transactionFromDataObj)
+
+    //Metodo que borra los datos del formulario tras enviarlo
     form.reset()
 })
 
+
+//Evento de escucha al abrir DOM
 document.addEventListener('DOMContentLoaded', ()=> {
+    
     fetch('http://localhost:3000/transactions').then(x => x.json()).then(data => recorrerElementos(data))
     addTotalMountToTable()  
 })
